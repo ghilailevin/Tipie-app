@@ -13,11 +13,10 @@ router.get('/data_tipie', async(req, res) =>{
 router.post('/login', (req, res) => {
     const { email, password } = req.body;
   
-    if (email !== 'demo@tipieapp.com' || password !== 'Tipie2022') {
+    if (email !== 'demo@tipieapp.com' && password !== 'Tipie2022') {
       return res.status(401).json({ message: 'Tus credenciales son invalidas' });
     }
-  
     return res.status(200).json({ message: 'Bienvenido' });
-  });
+});
 
 module.exports = router

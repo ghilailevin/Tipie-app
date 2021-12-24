@@ -1,75 +1,66 @@
-import React, { Component} from "react";
+import React, { useState} from "react";
 import '../css/Login.css';
-import axios from 'axios';
-import md5 from 'md5';
 
-const baseUrl="http://localhost:3001/data_tipie"
-
-class Login extends Component {
-    state={
-        form:{
-            username:"",
-            password:""
+function post (input) {
+    fetch('http://localhost:3001/login', {
+        method: 'POST',
+        body: JSON.stringify(input),
+        headers:{
+          'Content-Type': 'application/json',
         }
+    })
+}
+
+const Login = () => {
+
+    const [state, setState] = useState({
+        userName: "",
+        password: ""
+    });
+
+    //* SETEA LOS VALORES DEL INPUT EN UN ESTADO
+    function handleChange(e){
+        setState({...state, [e.target.name]: e.target.value})
     }
 
-    handleChange=async e=>{
-         await this.setState({
-            form:{
-                ...this.state.form,
-                [e.target.name]: e.target.value
-            }
-        });
+    function iniciarSesion(e){
+
+        e.preventDefault()
+        post(state)
     }
 
-    iniciarSesion=async()=>{
-        await axios.get(baseUrl, {params: {username:this.state.form.username, password: md5(this.state.form.password)}})
-        .then(response =>{
-            return response.data
-        })
-        .then(response =>{
-            if(response.lenght > 0) {
-                var respuesta = response[0]
-            } else {
-                alert('el usuerio o la contraseña son incorrectos')
-            }
-
-            
-        })
-        .catch(error =>{
-            console.log(error)
-        })
-    }
-
-  render() {
-    return (  
+    return ( 
         <div className="containerPrincipal">
-         <div className="containerSecundario">
-            <div className="form-group">
-                <label>Usuario: </label>
-                <br />
-                <input 
-                   type="text"
-                   className="form-control" 
-                   name="username"
-                   onChange={this.handleChange}
-                />
-                <br/>
-                <label>Contraseña: </label>
-                <br />
-                <input
+            <form onSubmit={iniciarSesion}>
+                <div className="containerSecundario">
+                <div className="form-group">
+                    <label>Usuario: </label>
+                    <br />
+                    <input 
+                    type="email"
+                    className="form-control"
+                    value={state.userName}
+                    name='userName'
+                    onChange={handleChange}
+                    placeholder='Ingrese un correo ej. demo@tipieapp.com'
+                    required/>
+                    <br/>
+                    <label>Contraseña: </label>
+                    <br />
+                    <input
                     type="password"
                     className="form-control"
-                    name="password"
-                    onChange={this.handleChange}
-                />
-                <br />
-                <button className="btn btn-primary" onClick={() => this.iniciarSesion()}>Iniciar Sesion</button>
-            </div>
-         </div> 
+                    value={state.password}
+                    name='password'
+                    onChange={handleChange}
+                    required/>
+                    <br />
+                <button className="btn btn-primary">Iniciar Sesion</button>
+                </div>
+                </div>
+            </form>
         </div>
     );
-  }
 }
- 
+
 export default Login;
