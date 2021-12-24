@@ -46,12 +46,14 @@
         "age": "49",
         "sector": "Cocina",
         "email": "andres@tipieapp.com"
+        
     },
     {
         "name": "Rodrigo",
         "age": "35",
         "sector": "Cocina",
         "email": "rodrigo@tipieapp.com"
+        
     },
     {
         "name": "Lorena",
