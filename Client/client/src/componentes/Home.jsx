@@ -8,7 +8,7 @@ const Home = () => {
         fetch("http://localhost:3001/data_tipie")
         .then( res => res.json() )
         .then(data => setState(data))
-    },[])
+    },[]) 
 
     console.log(state);
 
